@@ -15,10 +15,20 @@ if (!fs.existsSync(dataPath)) {
     fs.writeFileSync(dataPath, '[]', 'utf-8');
 }
 
-const saveContact = (nama, email, noHp) => {
-    const contact = {nama, email, noHp};
+const loadContact = () => {
     const fileBuffer = fs.readFileSync('data/contacts.json', 'utf-8');
     const contacts = JSON.parse(fileBuffer);
+    
+    return contacts;
+}
+
+const saveContact = (nama, email, noHp) => {
+    const contact = {nama, email, noHp};
+    // const fileBuffer = fs.readFileSync('data/contacts.json', 'utf-8');
+    // const contacts = JSON.parse(fileBuffer);
+
+    const contacts = loadContact();
+
 
     // cek duplikasi nama
     const duplikat = contacts.find( (contact) => contact.nama === nama );
@@ -51,4 +61,13 @@ const saveContact = (nama, email, noHp) => {
 
 }
 
-module.exports = {saveContact}
+const listContact = () => {
+    const contacts = loadContact();
+    console.log(chalk.green.inverse.bold('Daftar Contact : '))
+
+    contacts.forEach((contact, i) => {
+        console.log(`${i + 1}. ${contact.nama} - ${contact.noHp}`);
+    })
+}
+
+module.exports = {saveContact, listContact}

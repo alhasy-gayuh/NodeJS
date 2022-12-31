@@ -1,6 +1,6 @@
 // membuat contact app secara commandline interface 
 const yargs = require('yargs');
-const { saveContact } = require('./contacts');
+const contacts = require('./contacts');
 
 yargs.command({
     command: 'add',
@@ -23,8 +23,17 @@ yargs.command({
         },
     },
     handler(argv){
-        saveContact(argv.nama, argv.email, argv.noHp);
+        contacts.saveContact(argv.nama, argv.email, argv.noHp);
     }
-});
+}).demandCommand();
+
+// Menampilkan detail contact
+yargs.command({
+    command: 'list',
+    describe: 'Melihat list contact',
+    handler(){
+        contacts.listContact();
+    }
+})
 
 yargs.parse();
