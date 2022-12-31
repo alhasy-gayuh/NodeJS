@@ -70,4 +70,21 @@ const listContact = () => {
     })
 }
 
-module.exports = {saveContact, listContact}
+const detailContact = (nama) => {
+    const contacts = loadContact();
+
+    // telusuri nama contact
+    const contact = contacts.find((contact) => contact.nama.toLowerCase() === nama.toLowerCase());
+    if (!contact) {
+        console.log(chalk.red.inverse.bold(`${nama} Tidak di Temukan !!!`));
+        return false;
+    }
+    console.log(chalk.blue.inverse.bold('nama : ' + contact.nama));
+    console.log(chalk.green.inverse.bold('no HP : ' + contact.noHp));
+    if (contact.email) {
+        console.log(chalk.yellow.inverse.bold('email : ' + contact.email));
+    }
+
+}
+
+module.exports = {saveContact, listContact, detailContact}

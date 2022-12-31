@@ -22,18 +22,34 @@ yargs.command({
             type: 'string',
         },
     },
-    handler(argv){
+    handler(argv) {
         contacts.saveContact(argv.nama, argv.email, argv.noHp);
     }
 }).demandCommand();
 
-// Menampilkan detail contact
+// Menampilkan list contact
 yargs.command({
     command: 'list',
     describe: 'Melihat list contact',
-    handler(){
+    handler() {
         contacts.listContact();
     }
+})
+
+// menampilkan detail contact
+yargs.command({
+    command: 'detail',
+    describe: 'Menampilkan detail contact',
+    builder: {
+        nama: {
+            describe: 'Nama Lengkap',
+            demandOption: true,
+            type: 'string',
+        },
+    },
+    handler(argv) {
+            contacts.detailContact(argv.nama);
+        },
 })
 
 yargs.parse();
