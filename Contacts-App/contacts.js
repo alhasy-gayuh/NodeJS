@@ -85,6 +85,25 @@ const detailContact = (nama) => {
         console.log(chalk.yellow.inverse.bold('email : ' + contact.email));
     }
 
+};
+
+const deleteContact = (nama) => {
+    const contacts = loadContact();
+
+    // menghapus contact dengan cara menimpa file lama
+    // tanpa mencamtumkan contact yang ingin di hapus
+
+    const newContacts = contacts.filter((contact) => contact.nama.toLowerCase() !== nama.toLowerCase());
+
+    if (contacts.length === newContacts.length) {
+        console.log(chalk.red.inverse.bold(`nama ${nama} Tidak di Temukan !!!`));
+        return false;
+    }
+
+    // menimpa data contact lama dengan data contact baru
+    fs.writeFileSync('data/contacts.json', JSON.stringify(newContacts));
+
+    console.log(chalk.blue.inverse.bold(`contact ${nama} Berhasil di Hapus`));
 }
 
-module.exports = {saveContact, listContact, detailContact}
+module.exports = {saveContact, listContact, detailContact, deleteContact}
