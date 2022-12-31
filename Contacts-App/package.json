@@ -1,0 +1,22 @@
+{
+  "name": "contacts-app",
+  "version": "1.0.0",
+  "description": "membuat contacts app dengan nodeJS",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alhasy-gayuh/NodeJS.git#main"
+  },
+  "author": "gayuh alhasy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alhasy-gayuh/NodeJS/issues"
+  },
+  "homepage": "https://github.com/alhasy-gayuh/NodeJS/tree/main#readme",
+  "dependencies": {
+    "yargs": "^16.2.0"
+  }
+}
