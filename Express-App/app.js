@@ -1,7 +1,8 @@
 const express = require('express');
 const port = 3000
 const app = express()
-const {loadContact, findContact, addContact} = require('./utils/contacts')
+const {loadContact, findContact, addContact, cekDuplikat} = require('./utils/contacts')
+const { body, validationResult, check } = require('express-validator');
 
 // express layouts
 const expressLayouts = require('express-ejs-layouts')
@@ -13,7 +14,7 @@ app.use(expressLayouts); // Menggunakan Express Layouts
 
 // Built-in Middleware
 app.use(express.static('public'))
-app.use(express.urlencoded());
+app.use(express.urlencoded({extended: true}));
 
 app.get('/', (req, res) => {
     const mahasiswa = [
@@ -67,9 +68,29 @@ app.get('/contact/add', (req, res) => {
 })
 
 // proses menambahkan data contact
-app.post('/contact', (req,res) => {
-    addContact(req.body);
-    res.redirect('/contact');
+app.post('/contact', [
+    body('nama').custom((value) => {
+        const duplikat = cekDuplikat(value);
+        if (duplikat) {
+            throw new Error('Nama sudah terdaftar!')
+        }
+        return true;
+    }),
+    check('email', 'Email tidak valid!').isEmail(),
+    check('noHp', 'No HP tidak valid!').isMobilePhone('id-ID')
+], (req,res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        res.render('add-contact', {
+            title: 'Tambah Contact',
+            layout: 'layouts/main-layout',
+            errors: errors.array(),
+        })
+    //   return res.status(400).json({ errors: errors.array() });
+    } else {
+        addContact(req.body);
+        res.redirect('/contact');
+    }
 })
 
 // halaman detail contact
