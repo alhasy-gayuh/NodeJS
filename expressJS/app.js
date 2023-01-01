@@ -1,23 +1,27 @@
 const express = require('express');
-const app = express()
 const port = 3000
+const app = express()
 
 // express layouts
 const expressLayouts = require('express-ejs-layouts')
+// Morgan
+const morgan = require('morgan')
 
 // menggunakan EJS
 app.set('view engine', 'ejs');
 
-app.use(expressLayouts);
+// Third-party Middleware
+app.use(expressLayouts); // Menggunakan Express Layouts
+app.use(morgan('dev')); // Menggunakan Morgan
+
+// Built-in Middleware
+app.use(express.static('public'))
 
 // Menggunakan Application-level Middleware
 app.use((req, res, next) => {
     console.log('Time : ', Date.now());
     next() // jangan lupa menambahkan next()... kalau enggak bakal ngeHang
 })
-
-// Built-in Middleware
-app.use(express.static('public'))
 
 app.get('/', (req, res) => {
     const mahasiswa = [
@@ -64,7 +68,7 @@ app.get('/contact', (req, res) => {
 });
 
 // dapat digunakan untuk menangani halaman yang tidak ada
-app.use('/', (req, res) => {
+app.use((req, res) => {
     res.status(404)
     res.send('not found 404 ! ')
 })
