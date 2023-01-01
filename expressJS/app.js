@@ -10,6 +10,12 @@ app.set('view engine', 'ejs');
 
 app.use(expressLayouts);
 
+// Menggunakan Application-level Middleware
+app.use((req, res, next) => {
+    console.log('Time : ', Date.now());
+    next() // jangan lupa menambahkan next()... kalau enggak bakal ngeHang
+})
+
 app.get('/', (req, res) => {
     const mahasiswa = [
         {
