@@ -1,7 +1,7 @@
 const express = require('express');
 const port = 3000
 const app = express()
-const {loadContact, findContact} = require('./utils/contacts')
+const {loadContact, findContact, addContact} = require('./utils/contacts')
 
 // express layouts
 const expressLayouts = require('express-ejs-layouts')
@@ -13,6 +13,7 @@ app.use(expressLayouts); // Menggunakan Express Layouts
 
 // Built-in Middleware
 app.use(express.static('public'))
+app.use(express.urlencoded());
 
 app.get('/', (req, res) => {
     const mahasiswa = [
@@ -57,6 +58,21 @@ app.get('/contact', (req, res) => {
     });
 });
 
+// halaman tambah data contact
+app.get('/contact/add', (req, res) => {
+    res.render('add-contact', {
+        title: 'Tambah Contact',
+        layout: 'layouts/main-layout',
+    })
+})
+
+// proses menambahkan data contact
+app.post('/contact', (req,res) => {
+    addContact(req.body);
+    res.redirect('/contact');
+})
+
+// halaman detail contact
 app.get('/contact/:nama', (req, res) => {
     const contact = findContact(req.params.nama);
 

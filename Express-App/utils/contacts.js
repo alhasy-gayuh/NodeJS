@@ -16,15 +16,27 @@ if (!fs.existsSync(dataPath)) {
 const loadContact = () => {
     const fileBuffer = fs.readFileSync('data/contacts.json', 'utf-8');
     const contacts = JSON.parse(fileBuffer);
-    
+
     return contacts;
 }
 
 // cari contact berdasarkan nama
-const findContact =(nama) => {
+const findContact = (nama) => {
     const contacts = loadContact();
     const contact = contacts.find((contact) => contact.nama.toLowerCase() === nama.toLowerCase());
     return contact;
 }
 
-module.exports = { loadContact, findContact };
+// menulikan file contacts.JSON dengan data yang baru
+const saveContacts = (contacts) => {
+    fs.writeFileSync('data/contacts.json', JSON.stringify(contacts));
+}
+
+// menambahkan data contact baru
+const addContact = (contact) => {
+    const contacts = loadContact();
+    contacts.push(contact);
+    saveContacts(contacts);
+}
+
+module.exports = { loadContact, findContact, addContact };
