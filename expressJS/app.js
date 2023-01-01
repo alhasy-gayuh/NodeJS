@@ -1,17 +1,46 @@
 const express = require('express');
-const req = require('express/lib/request');
-const res = require('express/lib/response');
 const app = express()
 const port = 3000
 
-app.get('/', (req, res) => {
+// express layouts
+const expressLayouts = require('express-ejs-layouts')
 
-    res.sendFile('./index.html', {root: __dirname});
+// menggunakan EJS
+app.set('view engine', 'ejs');
+
+app.use(expressLayouts);
+
+app.get('/', (req, res) => {
+    const mahasiswa = [
+        {
+            nama: 'Gayuh',
+            email: 'gayuh@gmail.com'
+        },
+        {
+            nama: 'anisa',
+            email: 'anisa@gmail.com'
+        },
+        {
+            nama: 'angel',
+            email: 'angel@gmail.com'
+        },
+    ]
+
+    res.render('index', 
+    {
+        nama: 'Gayuh', 
+        title: 'Home',
+        layout: 'layouts/main-layout',
+        mahasiswa,
+    }
+    );
 });
 
 app.get('/about', (req, res) => {
-    res.sendFile('./about.html', {root: __dirname});
-    
+    res.render('about', {
+        title: 'About',
+        layout: 'layouts/main-layout',
+    });
 });
 
 app.get('/produk/:id', (req, res) => {
@@ -19,8 +48,10 @@ app.get('/produk/:id', (req, res) => {
 })
 
 app.get('/contact', (req, res) => {
-    res.sendFile('./contact.html', {root: __dirname});
-
+    res.render('contact', {
+        title: 'Contact',
+        layout: 'layouts/main-layout',
+    });
 });
 
 // dapat digunakan untuk menangani halaman yang tidak ada
