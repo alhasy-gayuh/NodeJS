@@ -16,6 +16,9 @@ app.use((req, res, next) => {
     next() // jangan lupa menambahkan next()... kalau enggak bakal ngeHang
 })
 
+// Built-in Middleware
+app.use(express.static('public'))
+
 app.get('/', (req, res) => {
     const mahasiswa = [
         {
