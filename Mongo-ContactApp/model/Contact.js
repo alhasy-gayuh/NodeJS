@@ -6,7 +6,7 @@ const Contact = mongoose.model('Contact', {
         type: String,
         required: true,
     },
-    nohp: {
+    noHp: {
         type: String,
         required: true,
     },
